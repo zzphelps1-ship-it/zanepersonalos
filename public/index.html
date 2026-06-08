@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZaneOS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>ZaneOS</h1>
+      <span class="date-display" id="date-display"></span>
+    </header>
+
+    <!-- Score Banner -->
+    <div class="score-banner">
+      <div class="score-card">
+        <span class="score-label">Morning</span>
+        <span class="score-value" id="score-morning">0/4</span>
+      </div>
+      <div class="score-card">
+        <span class="score-label">Business</span>
+        <span class="score-value" id="score-business">0/1</span>
+      </div>
+      <div class="score-card">
+        <span class="score-label">Evening</span>
+        <span class="score-value" id="score-evening">0/4</span>
+      </div>
+      <div class="score-card total">
+        <span class="score-label">Total</span>
+        <span class="score-value" id="score-total">0/9</span>
+      </div>
+    </div>
+
+    <!-- Morning -->
+    <section class="card morning">
+      <h2>☀️ Morning</h2>
+      <div class="checklist">
+        <label class="check-item">
+          <input type="checkbox" data-section="morning" data-key="workout">
+          <span class="checkmark"></span>
+          <span class="task-label">Workout</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" data-section="morning" data-key="supplements">
+          <span class="checkmark"></span>
+          <span class="task-label">Supplements</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" data-section="morning" data-key="breakfast">
+          <span class="checkmark"></span>
+          <span class="task-label">Breakfast</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" data-section="morning" data-key="protein">
+          <span class="checkmark"></span>
+          <span class="task-label">Protein Shake</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- Business -->
+    <section class="card business">
+      <h2>🚀 Business</h2>
+      <div class="checklist">
+        <label class="check-item">
+          <input type="checkbox" data-section="business" data-key="growth">
+          <span class="checkmark"></span>
+          <span class="task-label">Touch Growth Activity</span>
+        </label>
+      </div>
+      <div class="business-meta">
+        <div class="meta-block">
+          <p class="meta-label">✅ Counts</p>
+          <ul class="tag-list green">
+            <li>Call leads</li>
+            <li>Follow up prospects</li>
+            <li>Text old leads</li>
+            <li>Ask for reviews</li>
+            <li>Post content</li>
+            <li>Send estimates</li>
+          </ul>
+        </div>
+        <div class="meta-block">
+          <p class="meta-label">❌ Does not count</p>
+          <ul class="tag-list red">
+            <li>CRM bug fixes</li>
+            <li>Building systems</li>
+            <li>Website tweaking</li>
+            <li>Random research</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Evening -->
+    <section class="card evening">
+      <h2>🌙 Evening</h2>
+      <div class="checklist">
+        <label class="check-item">
+          <input type="checkbox" data-section="evening" data-key="magnesium">
+          <span class="checkmark"></span>
+          <span class="task-label">Magnesium</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" data-section="evening" data-key="reels">
+          <span class="checkmark"></span>
+          <span class="task-label">&lt; 30 mins Reels / Shorts</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" data-section="evening" data-key="family">
+          <span class="checkmark"></span>
+          <span class="task-label">Family / Friends Time</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" data-section="evening" data-key="read">
+          <span class="checkmark"></span>
+          <span class="task-label">Read / Journal 10 mins</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- Notes -->
+    <section class="card notes">
+      <h2>🧠 Daily Note</h2>
+      <p class="notes-question">What's one thing you kept thinking about today that you couldn't control?</p>
+      <p class="notes-sub">Just write it down. Get it out of your head.</p>
+      <textarea
+        class="notes-textarea"
+        id="notes-input"
+        placeholder="e.g. Revenue next month, moving out, grandma getting older..."
+      ></textarea>
+    </section>
+
+    <!-- Ideas -->
+    <section class="card ideas">
+      <h2>💡 Next Update Ideas</h2>
+      <p class="ideas-sub">Rule #2: No new features for 30 days. Write it here instead.</p>
+      <div class="ideas-input-row">
+        <input
+          type="text"
+          class="ideas-input"
+          id="idea-input"
+          placeholder="Add an idea for v2..."
+          maxlength="200"
+        >
+        <button class="add-btn" id="add-btn">Add</button>
+      </div>
+      <ul class="ideas-list" id="ideas-list"></ul>
+    </section>
+
+    <div class="reset-notice">
+      Resets at midnight &nbsp;·&nbsp; No banking &nbsp;·&nbsp; Every day starts at 0/9
+    </div>
+
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
