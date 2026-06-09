@@ -2,6 +2,42 @@ const STATE_KEY     = 'zaneos_v1_daily';
 const IDEAS_KEY     = 'zaneos_v1_ideas';
 const NOTES_LOG_KEY = 'zaneos_v1_notes_log';
 const TOMORROW_KEY  = 'zaneos_v1_tomorrow';
+const ACTIVITY_KEY  = 'zaneos_v1_activity';
+
+const GROWTH_ACTIVITIES = [
+  // Sales
+  { category: 'Sales',                text: 'Call old leads' },
+  { category: 'Sales',                text: 'Follow up old estimates' },
+  { category: 'Sales',                text: 'Ask a past customer for a review' },
+  { category: 'Sales',                text: 'Ask a past customer for a referral' },
+  { category: 'Sales',                text: 'Reach out to a no-show lead' },
+  // Customers
+  { category: 'Customers',            text: 'Check in with a coating customer' },
+  { category: 'Customers',            text: 'Follow up with a detail customer' },
+  { category: 'Customers',            text: 'Ask for before/after photos' },
+  { category: 'Customers',            text: 'Ask for a testimonial' },
+  // Content
+  { category: 'Content',              text: 'Post before/after' },
+  { category: 'Content',              text: 'Film a 30-second coating video' },
+  { category: 'Content',              text: 'Record a FAQ video' },
+  { category: 'Content',              text: 'Take new portfolio photos' },
+  // Partnerships
+  { category: 'Partnerships',         text: 'Contact a tint shop' },
+  { category: 'Partnerships',         text: 'Contact a PPF shop' },
+  { category: 'Partnerships',         text: 'Contact a dealership salesperson' },
+  { category: 'Partnerships',         text: 'Contact a local realtor' },
+  // Business Development
+  { category: 'Business Dev',         text: 'Improve quote script' },
+  { category: 'Business Dev',         text: 'Improve follow-up script' },
+  { category: 'Business Dev',         text: 'Review ad performance' },
+  { category: 'Business Dev',         text: 'Review closed vs lost jobs' },
+  // Emergency
+  { category: '🚨 Emergency',         text: 'Call 5 old leads' },
+  { category: '🚨 Emergency',         text: 'Ask 3 customers for reviews' },
+  { category: '🚨 Emergency',         text: 'Post one before/after' },
+];
+
+const TOTAL_ACTIVITIES = GROWTH_ACTIVITIES.length; // 24
 
 const SECTIONS = {
   morning:  ['workout', 'supplements', 'breakfast', 'protein'],
@@ -48,6 +84,109 @@ function loadState() {
 
 function saveState() {
   localStorage.setItem(STATE_KEY, JSON.stringify(state));
+}
+
+// ── Activity Picker ──────────────────────────────────────────
+function freshActivity() {
+  return { date: getTodayKey(), usedIndices: [], rerollsLeft: 1, currentIndex: null };
+}
+
+function loadActivity() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(ACTIVITY_KEY));
+    if (!stored || stored.date !== getTodayKey()) return freshActivity();
+    return stored;
+  } catch { return freshActivity(); }
+}
+
+function saveActivity() {
+  localStorage.setItem(ACTIVITY_KEY, JSON.stringify(activity));
+}
+
+function pickRandom(excludeIdx = null) {
+  const available = GROWTH_ACTIVITIES
+    .map((_, i) => i)
+    .filter(i => !activity.usedIndices.includes(i) && i !== excludeIdx);
+  if (available.length === 0) return null;
+  return available[Math.floor(Math.random() * available.length)];
+}
+
+function openSuggestion() {
+  if (activity.currentIndex === null) {
+    let idx = pickRandom();
+    if (idx === null) {
+      // Cycle complete — reset and start fresh
+      activity.usedIndices = [];
+      saveActivity();
+      idx = pickRandom();
+    }
+    activity.currentIndex = idx;
+    saveActivity();
+  }
+  renderSuggestion(true);
+}
+
+function closeSuggestion() {
+  renderSuggestion(false);
+}
+
+function markDone() {
+  if (activity.currentIndex === null) return;
+  activity.usedIndices.push(activity.currentIndex);
+  activity.currentIndex = null;
+  if (activity.usedIndices.length >= TOTAL_ACTIVITIES) {
+    activity.usedIndices = []; // Cycle complete — reset
+  }
+  saveActivity();
+  renderSuggestion(false);
+  renderActivityProgress();
+}
+
+function reroll() {
+  if (activity.rerollsLeft <= 0 || activity.currentIndex === null) return;
+  const newIdx = pickRandom(activity.currentIndex); // exclude current, put it back
+  if (newIdx === null) return;
+  activity.currentIndex = newIdx;
+  activity.rerollsLeft--;
+  saveActivity();
+  renderSuggestion(true);
+}
+
+function renderSuggestion(show) {
+  const card = document.getElementById('suggestion-card');
+  if (!show || activity.currentIndex === null) {
+    card.style.display = 'none';
+    return;
+  }
+
+  const item      = GROWTH_ACTIVITIES[activity.currentIndex];
+  const emergency = item.category.includes('Emergency');
+  const done      = activity.usedIndices.length;
+  const remaining = TOTAL_ACTIVITIES - done;
+
+  card.style.display = 'block';
+  card.innerHTML = `
+    <div class="suggestion-inner${emergency ? ' emergency' : ''}">
+      <div class="suggestion-top">
+        <span class="suggestion-category">${item.category}</span>
+        <button class="suggestion-close" onclick="closeSuggestion()">×</button>
+      </div>
+      <p class="suggestion-text">${escapeHtml(item.text)}</p>
+      <div class="suggestion-actions">
+        <button class="suggestion-done" onclick="markDone()">✓ Done</button>
+        ${activity.rerollsLeft > 0
+          ? `<button class="suggestion-reroll" onclick="reroll()">↺ Re-roll <span class="reroll-badge">${activity.rerollsLeft} left</span></button>`
+          : `<span class="reroll-used">No re-rolls left today</span>`
+        }
+      </div>
+      <p class="suggestion-progress">${done} of ${TOTAL_ACTIVITIES} done this cycle &nbsp;·&nbsp; ${remaining} remaining</p>
+    </div>
+  `;
+}
+
+function renderActivityProgress() {
+  const el = document.getElementById('activity-progress');
+  if (el) el.textContent = `${activity.usedIndices.length}/${TOTAL_ACTIVITIES}`;
 }
 
 // ── Notes Log ────────────────────────────────────────────────
@@ -233,6 +372,7 @@ let state    = loadState();
 let ideas    = loadIdeas();
 let notesLog = loadNotesLog();
 let tomorrow = loadTomorrow();
+let activity = loadActivity();
 
 function init() {
   document.getElementById('date-display').textContent = new Date().toLocaleDateString('en-US', {
@@ -274,6 +414,9 @@ function init() {
   renderTomorrow();
   renderNotesLog();
   renderIdeas();
+  renderActivityProgress();
+  // Restore suggestion card if one was open when they last left
+  if (activity.currentIndex !== null) renderSuggestion(true);
 }
 
 init();

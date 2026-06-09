@@ -395,6 +395,158 @@ h1 {
   padding: 16px;
 }
 
+/* Activity Picker */
+.suggestion-trigger-row {
+  margin: 12px 0 4px;
+}
+
+.need-something-btn {
+  background: none;
+  border: 1px dashed rgba(16, 185, 129, 0.35);
+  border-radius: 8px;
+  color: var(--business);
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: 600;
+  padding: 7px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.need-something-btn:hover {
+  background: rgba(16, 185, 129, 0.07);
+  border-color: rgba(16, 185, 129, 0.6);
+}
+
+.activity-progress-badge {
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 20px;
+  padding: 1px 7px;
+  color: var(--business);
+}
+
+#suggestion-card {
+  margin: 8px 0 4px;
+}
+
+.suggestion-inner {
+  background: rgba(16, 185, 129, 0.06);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.suggestion-inner.emergency {
+  background: rgba(239, 68, 68, 0.06);
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+.suggestion-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.suggestion-category {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--business);
+}
+
+.suggestion-inner.emergency .suggestion-category {
+  color: #f87171;
+}
+
+.suggestion-close {
+  background: none;
+  border: none;
+  color: var(--muted-light);
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.suggestion-close:hover { color: var(--text); }
+
+.suggestion-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.suggestion-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.suggestion-done {
+  background: var(--business);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.suggestion-done:hover { opacity: 0.85; }
+
+.suggestion-reroll {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: var(--muted-light);
+  font-size: 12px;
+  font-family: inherit;
+  padding: 7px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.suggestion-reroll:hover {
+  border-color: var(--muted-light);
+  color: var(--text);
+}
+
+.reroll-badge {
+  background: rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 1px 6px;
+  font-size: 10px;
+}
+
+.reroll-used {
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.suggestion-progress {
+  font-size: 11px;
+  color: var(--muted-light);
+}
+
 /* Tomorrow */
 .tomorrow-list {
   list-style: none;
