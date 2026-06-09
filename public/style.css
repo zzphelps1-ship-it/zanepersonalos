@@ -15,6 +15,8 @@
   --business: #10b981;
   --evening: #8b5cf6;
   --notes: #3b82f6;
+  --notes-log: #64748b;
+  --tomorrow: #06b6d4;
   --ideas: #ec4899;
   --danger: #ef4444;
 }
@@ -107,11 +109,13 @@ h1 {
   margin-bottom: 10px;
 }
 
-.card.morning  { border-left-color: var(--morning); }
-.card.business { border-left-color: var(--business); }
-.card.evening  { border-left-color: var(--evening); }
-.card.notes    { border-left-color: var(--notes); }
-.card.ideas    { border-left-color: var(--ideas); }
+.card.morning    { border-left-color: var(--morning); }
+.card.business   { border-left-color: var(--business); }
+.card.evening    { border-left-color: var(--evening); }
+.card.tomorrow   { border-left-color: var(--tomorrow); }
+.card.notes      { border-left-color: var(--notes); }
+.card.notes-log  { border-left-color: var(--notes-log); }
+.card.ideas      { border-left-color: var(--ideas); }
 
 .card h2 {
   font-size: 15px;
@@ -389,6 +393,78 @@ h1 {
   font-style: italic;
   text-align: center;
   padding: 16px;
+}
+
+/* Tomorrow */
+.tomorrow-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.tomorrow-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tomorrow-item.done .task-label {
+  text-decoration: line-through;
+  color: var(--muted-light);
+}
+
+.tomorrow-check { border-color: var(--border); }
+
+.card.tomorrow .check-item input:checked ~ .tomorrow-check {
+  background: var(--tomorrow);
+  border-color: var(--tomorrow);
+}
+
+.tomorrow-btn {
+  background: var(--tomorrow) !important;
+}
+
+/* Focus ring for tomorrow input */
+.card.tomorrow .ideas-input:focus {
+  border-color: var(--tomorrow);
+}
+
+/* Notes Log */
+.notes-log .card h2 { color: var(--notes-log); }
+
+.log-entry {
+  padding: 12px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.log-entry:last-child { margin-bottom: 0; }
+
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.log-date {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--notes-log);
+}
+
+.log-text {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 /* Reset notice */

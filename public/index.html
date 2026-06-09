@@ -125,6 +125,22 @@
       </div>
     </section>
 
+    <!-- Tomorrow -->
+    <section class="card tomorrow">
+      <h2>📅 Tomorrow</h2>
+      <div class="ideas-input-row">
+        <input
+          type="text"
+          class="ideas-input"
+          id="tomorrow-input"
+          placeholder="Add something for tomorrow..."
+          maxlength="200"
+        >
+        <button class="add-btn tomorrow-btn" id="tomorrow-add-btn">Add</button>
+      </div>
+      <ul class="tomorrow-list" id="tomorrow-list"></ul>
+    </section>
+
     <!-- Notes -->
     <section class="card notes">
       <h2>🧠 Daily Note</h2>
@@ -135,6 +151,12 @@
         id="notes-input"
         placeholder="e.g. Revenue next month, moving out, grandma getting older..."
       ></textarea>
+    </section>
+
+    <!-- Notes Log -->
+    <section class="card notes-log" id="notes-log-section" style="display:none;">
+      <h2>📓 Past Notes</h2>
+      <div id="notes-log-list"></div>
     </section>
 
     <!-- Ideas -->
